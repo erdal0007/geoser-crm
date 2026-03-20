@@ -1,36 +1,30 @@
 {
-    "name": "GEOSER GEOSENTETİK CRM",
-    "short_name": "GEOSER CRM",
-    "description": "Geomembran ve Geotekstil Çözümleri CRM Sistemi",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#1a5276",
-    "theme_color": "#1a5276",
-    "orientation": "portrait-primary",
-    "scope": "/",
-    "lang": "tr",
-    "categories": ["business", "productivity"],
-    "icons": [
-          {
-                  "src": "icon-192.png",
-                  "sizes": "192x192",
-                  "type": "image/png",
-                  "purpose": "any maskable"
-          },
-          {
-                  "src": "icon-512.png",
-                  "sizes": "512x512",
-                  "type": "image/png",
-                  "purpose": "any maskable"
-          }
-    ],
-    "screenshots": [
-          {
-                  "src": "screenshot.png",
-                  "sizes": "1280x720",
-                  "type": "image/png",
-                  "form_factor": "wide",
-                  "label": "GEOSER CRM Dashboard"
-          }
-    ]
+  "name": "GEOSER GEOSENTETİK CRM",
+  "short_name": "GEOSER CRM",
+  "description": "Geomembran ve Geotekstil Çözümleri CRM Sistemi",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a5276",
+  "theme_color": "#1a5276",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "tr",
+  "categories": [
+    "business",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiI+CiAgPHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSIzMiIgZmlsbD0iIzFhNTI3NiIvPgogIDxjaXJjbGUgY3g9Ijk2IiBjeT0iODYiIHI9IjUyIiBmaWxsPSIjMjk4MGI5Ii8+CiAgPHRleHQgeD0iOTYiIHk9IjEwMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNTgiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RzwvdGV4dD4KICA8dGV4dCB4PSI5NiIgeT0iMTUwIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiM1ZGFkZTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNSTTwvdGV4dD4KPC9zdmc+",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI4MCIgZmlsbD0iIzFhNTI3NiIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjIzMCIgcj0iMTQwIiBmaWxsPSIjMjk4MGI5Ii8+CiAgPHRleHQgeD0iMjU2IiB5PSIyNzUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1NSIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5HPC90ZXh0PgogIDx0ZXh0IHg9IjI1NiIgeT0iNDAwIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI1NSIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiM1ZGFkZTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNSTTwvdGV4dD4KPC9zdmc+",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
