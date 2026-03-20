@@ -139,6 +139,11 @@ tr:hover td{background:#f8fafc}
 #syncStatus.show{display:block}
 @media(max-width:768px){#sidebar{width:200px}#main{margin-left:200px}#content{padding:16px}}
 @media print{#sidebar,#topbar,.no-print{display:none!important}#main{margin-left:0!important}body{background:#fff!important}}
+
+/* Hamburger - sadece mobilde görünür */
+#menuToggle{display:none}
+/* Sidebar overlay - sadece mobilde aktif */
+#sidebarOverlay{display:none}
 </style>
 </head><body>
 <div id="loginOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#1a5276,#2980b9);z-index:9999;justify-content:center;align-items:center;">
@@ -154,6 +159,7 @@ tr:hover td{background:#f8fafc}
 </div>
 </div>
 <div id="syncStatus">Senkronize ediliyor...</div>
+<div id="sidebarOverlay" onclick="toggleMobileMenu()"></div>
 <div id="sidebar">
 <div class="logo"><div id="sidebarLogoImg"></div><div class="logo-text"><h2 id="sidebarTitle">⬡ GEOSER</h2><p id="sidebarSubtitle">GEOSENTETİK CRM v2.0</p></div></div>
 <nav id="sidebarNav">
@@ -174,7 +180,7 @@ tr:hover td{background:#f8fafc}
 <div class="user-section"><div class="user-label">Aktif Kullanıcı</div><select id="activeUserSelect" onchange="changeUser()"></select><div id="userRoleBadge" class="user-role-badge"></div></div>
 </div>
 <div id="main">
-<div id="topbar"><h1 id="pageTitle">Dashboard</h1><div class="actions"><span id="onlineUsers" style="font-size:12px;color:#27ae60;margin-right:8px"></span><button class="btn btn-outline btn-sm no-print" onclick="exportJSON()" title="Veriyi yedekle">💾 Yedekle</button><label class="btn btn-outline btn-sm no-print" style="cursor:pointer" title="Yedeği geri yükle">📂 Yükle<input type="file" accept=".json" style="display:none" onchange="importJSON(event)"></label></div></div>
+<div id="topbar"><button id="menuToggle" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button><h1 id="pageTitle">Dashboard</h1><div class="actions"><span id="onlineUsers" style="font-size:12px;color:#27ae60;margin-right:8px"></span><button class="btn btn-outline btn-sm no-print" onclick="exportJSON()" title="Veriyi yedekle">💾 Yedekle</button><label class="btn btn-outline btn-sm no-print" style="cursor:pointer" title="Yedeği geri yükle">📂 Yükle<input type="file" accept=".json" style="display:none" onchange="importJSON(event)"></label></div></div>
 <div id="content">
 <div id="sec-dashboard" class="section active"><div class="stats-grid" id="dashStats"></div><div id="stockAlertBar" class="stock-alert"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px"><div class="card"><div class="card-title">Satış Hattı (Pipeline)</div><div id="dashPipeline"></div></div><div class="card"><div class="card-title">Ürün Bazlı Teklif (₺)</div><div id="dashProductChart"></div></div></div><div class="card"><div class="card-title">Son Aktiviteler</div><ul class="activity-list" id="dashActivities"></ul></div></div>
 <div id="sec-customers" class="section"><div class="toolbar"><div class="search-box"><span>🔍</span><input id="custSearch" placeholder="Müşteri ara..." oninput="renderCustomers()"></div><select id="custFilter" onchange="renderCustomers()" style="padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:13px"><option value="">Tüm Tipler</option><option>İnşaat Firması</option><option>Belediye</option><option>Devlet Kurumu</option><option>Özel Sektör</option><option>İhracat</option><option>Bayii</option></select><button class="btn btn-outline btn-sm" onclick="exportCSV('customers')">📥 CSV</button><button class="btn btn-primary" onclick="openNewCustomer()">+ Yeni Müşteri</button></div><div class="card"><div class="table-wrap"><table><thead><tr><th>Firma</th><th>Vergi No</th><th>Sektör</th><th>Şehir</th><th>Temsilci</th><th>Kredi Limiti</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="custTable"></tbody></table></div></div></div>
@@ -296,6 +302,7 @@ function fillOfferContact(){var cid=document.getElementById('ofCust').value;var 
 // ============================================================
 var TITLES={dashboard:'Dashboard',customers:'Müşteriler',contacts:'Kişiler',leads:'Potansiyeller',offers:'Teklifler',orders:'Siparişler',products:'Ürün Kataloğu',activities:'Aktiviteler',calendar:'Takvim',reports:'Raporlar',users:'Kullanıcılar',settings:'⚙️ Sistem Ayarları'};
 function navigate(sec){
+  if(window.closeMobileMenu) closeMobileMenu();
   document.querySelectorAll('#sidebarNav a').forEach(function(x){x.classList.remove('active');});
   var link=document.querySelector('#sidebarNav a[data-section="'+sec+'"]');if(link)link.classList.add('active');
   document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
@@ -315,6 +322,30 @@ function navigate(sec){
   else if(sec==='settings')renderSettings();
 }
 document.querySelectorAll('#sidebarNav a').forEach(function(a){a.addEventListener('click',function(){var sec=a.dataset.section;if(!sec)return;if(sec==='settings'&&!isAdmin()){showNotif('Sadece yöneticiler erişebilir!',true);return;}navigate(sec);});});
+
+// ===== MOBİL MENÜ =====
+function toggleMobileMenu(){
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('sidebarOverlay');
+  var isOpen = sidebar.classList.contains('mob-open');
+  if(isOpen){
+    sidebar.classList.remove('mob-open');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  } else {
+    sidebar.classList.add('mob-open');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+// Navigasyon tıklandığında menüyü kapat (mobilde)
+function closeMobileMenu(){
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.remove('mob-open');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
 </script><script>
 // DASHBOARD
 function renderDashboard(){
