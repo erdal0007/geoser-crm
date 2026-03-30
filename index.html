@@ -249,7 +249,8 @@ tr:hover td{background:#f8fafc}
 /* Sidebar overlay - sadece mobilde aktif */
 #sidebarOverlay{display:none}
 </style><style id="print-fix">@media print{@page{size:A4;margin:8mm}body>*{display:none!important}body>#offerPreviewModal{display:block!important;position:absolute!important;top:0!important;left:0!important;width:100%!important;height:auto!important;overflow:visible!important;background:#fff!important;z-index:99999!important;padding:0!important;margin:0!important}.modal-overlay.hidden{display:none!important}#offerPreviewModal .modal-header{display:none!important}#offerPreviewModal .modal-body{padding:0!important;margin:0!important;overflow:visible!important;max-height:none!important;height:auto!important}#offerPreviewModal .modal-content{box-shadow:none!important;border:none!important;padding:0!important;margin:0!important;max-height:none!important;overflow:visible!important;width:100%!important;max-width:100%!important}#offerPreviewModal *{font-size:10px!important;line-height:1.3!important}#offerPreviewModal h2,#offerPreviewModal h3{font-size:13px!important}#offerPreviewModal h4{font-size:11px!important}#offerPreviewModal table{border-collapse:collapse!important;width:100%!important}#offerPreviewModal table td,#offerPreviewModal table th{border:1px solid #aaa!important;padding:2px 4px!important;font-size:9px!important}#offerPreviewModal .grid-2{display:grid!important;grid-template-columns:1fr 1fr!important;gap:4px!important}#offerPreviewModal .grid-2>div{border:1px solid #ddd!important;padding:4px!important}#offerPreviewModal img{max-height:40px!important}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}</style>
-</head><body>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script></head><body>
 <script>if(location.protocol!=="https:"&&location.hostname!=="localhost"&&location.hostname!=="127.0.0.1"){location.replace("https://"+location.hostname+location.pathname+location.search)}</script>
 <div id="loginOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#1a5276,#2980b9);z-index:9999;justify-content:center;align-items:center;">
 <div style="background:#fff;border-radius:16px;padding:40px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
@@ -282,6 +283,7 @@ tr:hover td{background:#f8fafc}
 <a data-section="stats" aria-label="İstatistikler"><span class="ico">📊</span> <span class="nav-lbl">İstatistikler</span></a>
 <a data-section="reports" aria-label="Raporlar"><span class="ico">📈</span> <span class="nav-lbl">Raporlar</span></a>
 <a data-section="users" aria-label="Kullanıcılar"><span class="ico">👥</span> <span class="nav-lbl">Kullanıcılar</span></a>
+<a data-section="mails" aria-label="Mail Geçmişi"><span class="ico">📧</span> <span class="nav-lbl">Mail Geçmişi</span></a>
 <a data-section="settings" aria-label="Ayarlar" class="admin-only"><span class="ico">⚙️</span> <span class="nav-lbl">Ayarlar</span></a>
 <a href="javascript:void(0)" onclick="logout()" style="color:rgba(255,255,255,0.7);border-top:1px solid rgba(255,255,255,0.1);padding:11px 20px;display:flex;align-items:center;gap:10px;"><span class="ico">🚪</span>Çıkış Yap</a>
 </nav>
@@ -303,7 +305,8 @@ tr:hover td{background:#f8fafc}
 <div id="sec-stats" class="section"><div id="statsContent"></div></div>
 <div id="sec-users" class="section"><div class="toolbar"><div class="search-box"><span>🔍</span><input id="userSearch" aria-label="Kullanıcı ara" placeholder="Kullanıcı ara..." oninput="renderUsers()"></div><button class="btn btn-primary" onclick="openNewUser()">+ Yeni Kullanıcı</button></div><div class="card"><div class="table-wrap"><table><thead><tr><th>Ad Soyad</th><th>Kullanıcı Adı</th><th>E-posta</th><th>Rol</th><th>Departman</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="userTable"></tbody></table></div></div><p style="margin-top:12px;font-size:12px;color:#95a5a6">Toplam: <span id="userCount">0</span> kullanıcı</p></div>
 <div id="sec-settings" class="section"><div id="settingsContent"></div></div>
-</div></div>
+</div>
+<div id="sec-mails" class="section"><div id="mailsContent"></div></div></div>
 <div class="notif" id="notif"></div><!-- CUSTOMER MODAL -->
 <div class="modal-overlay hidden" id="customerModal"><div class="modal"><div class="modal-header"><h3 id="custModalTitle">Yeni Müşteri</h3><button class="close-btn" onclick="closeModal('customerModal')">×</button></div><div class="modal-body"><div class="form-grid"><div class="form-group" style="grid-column:1/-1"><label>Firma Adı *</label><input id="cFirma" aria-label="Firma Adı" placeholder="Firma adı"></div><div class="form-group"><label>Vergi Dairesi</label><input id="cVD" aria-label="Vergi Dairesi"></div><div class="form-group"><label>Vergi No</label><input id="cVN" aria-label="Vergi No"></div><div class="form-group"><label>Sektör</label><select id="cSector" aria-label="Sektör"><option>İnşaat Firması</option><option>Belediye</option><option>Devlet Kurumu</option><option>Özel Sektör</option><option>İhracat</option><option>Bayii</option></select></div><div class="form-group"><label>Müşteri Tipi</label><select id="cType" aria-label="Tip"><option>Aktif</option><option>Potansiyel</option><option>Eski Müşteri</option></select></div><div class="form-group"><label>Şehir</label><input id="cCity" aria-label="Şehir"></div><div class="form-group"><label>İlçe</label><input id="cDist" aria-label="İlçe"></div><div class="form-group"><label>Telefon</label><input id="cPhone" aria-label="Telefon"></div><div class="form-group"><label>E-posta</label><input id="cEmail" aria-label="E-posta" type="email"></div><div class="form-group"><label>Web Sitesi</label><input id="cWeb" aria-label="Web"></div><div class="form-group"><label>Kredi Limiti (₺)</label><input id="cCredit" aria-label="Kredi Limiti" type="number" value="0"></div><div class="form-group"><label>Satış Temsilcisi</label><select id="cRep" aria-label="Temsilci"></select></div><div class="form-group" style="grid-column:1/-1"><label>Adres</label><textarea id="cAddr" aria-label="Adres"></textarea></div><div class="form-group" style="grid-column:1/-1"><label>Notlar</label><textarea id="cNote" aria-label="Notlar"></textarea></div></div></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('customerModal')">İptal</button><button class="btn btn-primary" onclick="saveCustomer()">Kaydet</button></div></div></div>
 <!-- CONTACT MODAL -->
@@ -428,6 +431,7 @@ function navigate(sec){
   else if(sec==='calendar')renderCalendar();else if(sec==='stats')renderStats();
   else if(sec==='reports')renderReports();
   else if(sec==='users')renderUsers();
+  else if(sec==='mails')renderMails();
   else if(sec==='settings')renderSettings();
 }
 document.querySelectorAll('#sidebarNav a').forEach(function(a){a.addEventListener('click',function(){var sec=a.dataset.section;if(!sec)return;if(sec==='settings'&&!isAdmin()){showNotif('Sadece yöneticiler erişebilir!',true);return;}navigate(sec);});});
@@ -477,7 +481,9 @@ function renderDashboard(){
   if(lowStock.length){bar.className='stock-alert show';bar.innerHTML='⚠️ <strong>Düşük Stok:</strong> '+lowStock.map(function(p){return p.name;}).join(', ');}else{bar.className='stock-alert';}
 }
 
-// CUSTOMERS
+// CU
+  // Mail ozeti
+  firebase.firestore().collection('mailLogs').get().then(function(snap){var mc=snap.size;var el=document.getElementById('dashMailCount');if(el)el.textContent=mc;});STOMERS
 function renderCustomers(){
   var q=(document.getElementById('custSearch').value||'').toLowerCase();var f=document.getElementById('custFilter').value;
   var list=db.customers.filter(function(c){return(!q||c.firma.toLowerCase().includes(q)||(c.city||'').toLowerCase().includes(q))&&(!f||c.sector===f);});
@@ -533,7 +539,7 @@ function renderOfferLines(){
 }
 function ofLineChange(i,k,v){offerLines[i][k]=(k==='prod'||k==='unit')?v:parseFloat(v)||0;if(k==='prod'){var p=db.products.find(function(x){return x.id===v;});if(p){offerLines[i].price=p.price;offerLines[i].unit=p.unit;}}renderOfferLines();}
 function calcOfferTotal(){var vat=parseFloat(document.getElementById('ofVat').value)||0;var r=calcOfferLines(offerLines,vat);document.getElementById('ofSubtotal').textContent=fmt(r.sub)+' ₺';document.getElementById('ofDiscTotal').textContent=fmt(r.disc)+' ₺';document.getElementById('ofVatTotal').textContent=fmt(r.vat)+' ₺';document.getElementById('ofGrandTotal').textContent=fmt(r.total)+' ₺';}
-function renderOffers(){var q=(document.getElementById('offSearch').value||'').toLowerCase();var f=document.getElementById('offFilter').value;var list=db.offers.filter(function(o){return(!q||o.no.toLowerCase().includes(q)||custName(o.cust).toLowerCase().includes(q))&&(!f||o.status===f);});var stB={Hazırlanıyor:'badge-grey',Gönderildi:'badge-blue',Revize:'badge-orange',Onaylandı:'badge-green',Reddedildi:'badge-red'};document.getElementById('offTable').innerHTML=list.map(function(o){return '<tr><td><strong>'+o.no+'</strong></td><td>'+custName(o.cust)+'</td><td>'+fmtDate(o.date)+'</td><td>'+fmtDate(o.valid)+'</td><td>₺'+fmt(offerTotal(o))+'</td><td><span class="badge '+(stB[o.status]||'badge-grey')+'">'+o.status+'</span></td><td>'+userName(o.rep)+'</td><td style="white-space:nowrap"><button class="btn btn-outline btn-sm" onclick="editOffer(\''+o.id+'\')">✏️</button> <button class="btn btn-warning btn-sm" onclick="viewOfferPreview(\''+o.id+'\')">👁</button>'+(isAdmin()?' <button class="btn btn-danger btn-sm" onclick="deleteRec(\'offers\',\''+o.id+'\',renderOffers)">🗑</button>':'')+(o.status==='Hazırlanıyor'&&!isAdmin()?' <button class="btn btn-success btn-sm" onclick="submitForApproval(\''+o.id+'\')" >📤 Onay</button>':'')+(o.status==='Onay Bekliyor'&&isAdmin()?' <button class="btn btn-success btn-sm" onclick="approveOffer(\''+o.id+'\')" >✅</button> <button class="btn btn-danger btn-sm" onclick="rejectOffer(\''+o.id+'\')" >❌</button>':'')+(o.status==='Onaylandı'&&isAdmin()?' <button class="btn btn-primary btn-sm" onclick="markSentOffer(\''+o.id+'\')" >📨</button>':'')+'</td></tr>';}).join('')||'<tr><td colspan="8" style="text-align:center;color:#95a5a6;padding:20px">Kayıt bulunamadı</td></tr>';}
+function renderOffers(){var q=(document.getElementById('offSearch').value||'').toLowerCase();var f=document.getElementById('offFilter').value;var list=db.offers.filter(function(o){return(!q||o.no.toLowerCase().includes(q)||custName(o.cust).toLowerCase().includes(q))&&(!f||o.status===f);});var stB={Hazırlanıyor:'badge-grey',Gönderildi:'badge-blue',Revize:'badge-orange',Onaylandı:'badge-green',Reddedildi:'badge-red'};document.getElementById('offTable').innerHTML=list.map(function(o){return '<tr><td><strong>'+o.no+'</strong></td><td>'+custName(o.cust)+'</td><td>'+fmtDate(o.date)+'</td><td>'+fmtDate(o.valid)+'</td><td>₺'+fmt(offerTotal(o))+'</td><td><span class="badge '+(stB[o.status]||'badge-grey')+'">'+o.status+'</span></td><td>'+userName(o.rep)+'</td><td style="white-space:nowrap"><button class="btn btn-outline btn-sm" onclick="editOffer(\''+o.id+'\')">✏️</button> <button class="btn btn-warning btn-sm" onclick="viewOfferPreview(\''+o.id+'\')">👁</button>'+ ' <button class="btn btn-info btn-sm" title="Mail Gönder" onclick="openMailCompose(\''+o.id+'\')">📧</button>'+(isAdmin()?' <button class="btn btn-danger btn-sm" onclick="deleteRec(\'offers\',\''+o.id+'\',renderOffers)">🗑</button>':'')+(o.status==='Hazırlanıyor'&&!isAdmin()?' <button class="btn btn-success btn-sm" onclick="submitForApproval(\''+o.id+'\')" >📤 Onay</button>':'')+(o.status==='Onay Bekliyor'&&isAdmin()?' <button class="btn btn-success btn-sm" onclick="approveOffer(\''+o.id+'\')" >✅</button> <button class="btn btn-danger btn-sm" onclick="rejectOffer(\''+o.id+'\')" >❌</button>':'')+(o.status==='Onaylandı'&&isAdmin()?' <button class="btn btn-primary btn-sm" onclick="markSentOffer(\''+o.id+'\')" >📨</button>':'')+'</td></tr>';}).join('')||'<tr><td colspan="8" style="text-align:center;color:#95a5a6;padding:20px">Kayıt bulunamadı</td></tr>';}
 function openNewOffer(){editOffId=null;offerLines=[];document.getElementById('offModalTitle').textContent='Yeni Teklif';var today=new Date().toISOString().substring(0,10);var valid=new Date(Date.now()+30*86400000).toISOString().substring(0,10);fillSelects();document.getElementById('ofDate').value=today;document.getElementById('ofValid').value=valid;document.getElementById('ofVat').value=20;document.getElementById('ofNote').value='';renderOfferLines();openModal('offerModal');}
 function editOffer(id){editOffId=id;var o=db.offers.find(function(x){return x.id===id;});if(!o)return;document.getElementById('offModalTitle').textContent='Teklif Düzenle';offerLines=(o.lines||[]).map(function(l){return Object.assign({},l);});fillSelects();document.getElementById('ofCust').value=o.cust||'';fillOfferContact();setTimeout(function(){document.getElementById('ofContact').value=o.contact||'';},50);document.getElementById('ofDate').value=o.date||'';document.getElementById('ofValid').value=o.valid||'';document.getElementById('ofCur').value=o.currency||'TRY';document.getElementById('ofStatus').value=o.status||'Hazırlanıyor';document.getElementById('ofRep').value=o.rep||'';document.getElementById('ofVat').value=o.vat||20;document.getElementById('ofNote').value=o.note||'';renderOfferLines();openModal('offerModal');}
 async function saveOffer(){var cust=document.getElementById('ofCust').value;if(!cust){showNotif('Müşteri seçiniz!',true);return;}var data={cust:cust,contact:document.getElementById('ofContact').value,date:document.getElementById('ofDate').value,valid:document.getElementById('ofValid').value,currency:document.getElementById('ofCur').value,status:document.getElementById('ofStatus').value,rep:document.getElementById('ofRep').value,vat:parseFloat(document.getElementById('ofVat').value)||20,note:document.getElementById('ofNote').value,lines:offerLines.slice()};if(!editOffId){data.id=uid();data.no='TKL-'+db.offerCounter++;await saveCounters();}else{data.id=editOffId;var ex=db.offers.find(function(x){return x.id===editOffId;});if(ex)data.no=ex.no;}try{await saveCollection('offers',data);closeModal('offerModal');showNotif('Teklif kaydedildi ✓');}catch(e){showNotif('Kayıt hatası!',true);}}
@@ -849,6 +855,195 @@ if('serviceWorker' in navigator){
   });
 }
 </script>
-<script>(function(){var a=0,l=0;var f=document.getElementById("loginForm");if(f){f.addEventListener("submit",function(e){var n=Date.now();if(l>n){e.preventDefault();e.stopImmediatePropagation();var r=Math.ceil((l-n)/1000);var err=document.getElementById("loginErr");if(err){err.textContent="Çok fazla deneme! "+r+" saniye bekleyin.";err.style.display="block";}return false;}a++;if(a>=5){l=n+30000;a=0;}},true);}})();(function(){var d=document.querySelectorAll("div");for(var i=0;i<d.length;i++){if(d[i].textContent.indexOf("GEOSER")>-1&&d[i].textContent.indexOf("\u00A9")>-1&&d[i].children.length===0){d[i].innerHTML="\u00A9 "+new Date().getFullYear()+" GEOSER GEOSENTETİK";break;}}})();</script>
+<script>(function(){var a=0,l=0;var f=document.getElementById("loginForm");if(f){f.addEventListener("submit",function(e){var n=Date.now();if(l>n){e.preventDefault();e.stopImmediatePropagation();var r=Math.ceil((l-n)/1000);var err=document.getElementById("loginErr");if(err){err.textContent="Çok fazla deneme! "+r+" saniye bekleyin.";err.style.display="block";}return false;}a++;if(a>=5){l=n+30000;a=0;}},true);}})();(function(){var d=document.querySelectorAll("div");for(var i=0;i<d.length;i++){if(d[i].textContent.indexOf("GEOSER")>-1&&d[i].textContent.indexOf("\u00A9")>-1&&d[i].children.length===0){d[i].innerHTML="\u00A9 "+new Date().getFullYear()+" GEOSER GEOSENTETİK";break;}}})();
+// ======= GMAIL / MAIL FEATURES =======
+var gmailTokenClient=null,gmailAccessToken=localStorage.getItem('gmailToken')||null,GMAIL_CLIENT_ID=localStorage.getItem('gmailClientId')||'';
+function initGmail(){
+  var cfg=GMAIL_CLIENT_ID||'';
+  if(!cfg||typeof google==='undefined'||!google.accounts)return;
+  try{gmailTokenClient=google.accounts.oauth2.initTokenClient({
+    client_id:cfg,
+    scope:'https://www.googleapis.com/auth/gmail.send',
+    callback:function(r){
+      if(r.error)return showToast('Gmail hata: '+r.error,'error');
+      gmailAccessToken=r.access_token;localStorage.setItem('gmailToken',r.access_token);
+      showToast('✓ Gmail bağlantısı kuruldu','success');
+      var btn=document.getElementById('gmailConnectBtn');if(btn)btn.textContent='✓ Bağlı';
+    }});}catch(e){console.error('Gmail init:',e);}
+}
+function connectGmail(){
+  var inp=document.getElementById('gmailClientIdInput');
+  var cid=inp?inp.value.trim():GMAIL_CLIENT_ID;
+  if(!cid)return showToast('Google Client ID giriniz','error');
+  GMAIL_CLIENT_ID=cid;localStorage.setItem('gmailClientId',cid);
+  if(typeof google==='undefined'||!google.accounts)return showToast('Google API yüklenmedi. Sayfayı yenileyip tekrar deneyin.','error');
+  initGmail();
+  if(gmailTokenClient)gmailTokenClient.requestAccessToken();
+  else showToast('Gmail client başlatılamadı','error');
+}
+function disconnectGmail(){
+  gmailAccessToken=null;localStorage.removeItem('gmailToken');localStorage.removeItem('gmailClientId');GMAIL_CLIENT_ID='';
+  showToast('Gmail bağlantısı kesildi','info');
+  var s=document.getElementById('gmailStatus');if(s)s.textContent='Bağlı değil';
+  var b=document.getElementById('gmailConnectBtn');if(b)b.textContent='🔗 Gmail Bağla';
+}
+function openMailCompose(offerId){
+  var offer=(db.offers||[]).find(function(o){return o.id===offerId;})||{};
+  var cust=(db.customers||[]).find(function(c){return c.id===offer.customerId;})||{};
+  var contacts=(db.contacts||[]).filter(function(c){return c.customerId===offer.customerId;});
+  var contact=contacts[0]||{};
+  var toEmail=contact.email||cust.email||'';
+  var toName=contact.name||cust.companyName||cust.name||'';
+  var offerNo=offer.offerNo||offer.id||'';
+  var subj='Teklifimiz: '+offerNo+' - GEOSER GEOSENTETİK';
+  var bodyText='Sayın '+(toName||'İlgili Kişi')+',\n\nSayınıza '+offerNo+' numaralı teklifimizi sunmaktan memnuniyet duyarız.\n\nTeklif Tutarı: ₺'+(offer.total?fmt(offer.total):'--')+'\nGeçerlilik: '+(offer.validUntil||'--')+'\n\nSaygılarımızla,\nGEOSER GEOSENTETİK';
+  var existing=document.getElementById('mailComposeModal');if(existing)existing.remove();
+  var modal=document.createElement('div');
+  modal.className='modal-overlay active';modal.id='mailComposeModal';
+  var isConn=!!(gmailAccessToken||localStorage.getItem('gmailToken'));
+  modal.innerHTML='<div class="modal" style="max-width:580px;width:95%"><div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #e0e0e0"><h2 style="margin:0;font-size:18px">📧 Mail Gönder — '+esc(offerNo)+'</h2><button class="btn btn-sm btn-outline" onclick="document.getElementById(\'mailComposeModal\').remove()">✕</button></div>'
+    +'<div style="padding:20px;display:flex;flex-direction:column;gap:12px">'
+    +'<div class="form-group"><label>Alıcı E-posta *</label><input id="mailTo" class="form-control" type="email" value="'+esc(toEmail)+'" placeholder="ornek@firma.com"></div>'
+    +'<div class="form-group"><label>Alıcı Adı</label><input id="mailToName" class="form-control" value="'+esc(toName)+'"></div>'
+    +'<div class="form-group"><label>Konu</label><input id="mailSubject" class="form-control" value="'+esc(subj)+'"></div>'
+    +'<div class="form-group"><label>Mesaj</label><textarea id="mailBody" class="form-control" rows="7" style="font-family:sans-serif;font-size:13px;resize:vertical">'+esc(bodyText)+'</textarea></div>'
+    +(isConn?'<p style="font-size:12px;color:#4caf50">✓ Gmail bağlı - doğrudan gönderilecek</p>':'<p style="font-size:12px;color:#ff9800">⚠️ Gmail bağlı değil — varsayılan e-posta uygulaması açılacak (<a href="#" onclick="showSection(\'settings\')">Ayarlar\'dan bağla</a>)</p>')
+    +'</div>'
+    +'<div style="padding:12px 20px;border-top:1px solid #e0e0e0;display:flex;justify-content:flex-end;gap:8px">'
+    +'<button class="btn btn-outline" onclick="document.getElementById(\'mailComposeModal\').remove()">İptal</button>'
+    +'<button class="btn btn-primary" onclick="sendOfferEmail(\''+offerId+'\')">\uD83D\uDCE4 Gönder</button>'
+    +'</div></div>';
+  document.body.appendChild(modal);
+}
+function sendOfferEmail(offerId){
+  var toEmail=(document.getElementById('mailTo')||{}).value||'';
+  var toName=(document.getElementById('mailToName')||{}).value||'';
+  var subject=(document.getElementById('mailSubject')||{}).value||'';
+  var body=(document.getElementById('mailBody')||{}).value||'';
+  if(!toEmail)return showToast('Alıcı e-posta adresi giriniz','error');
+  var token=gmailAccessToken||localStorage.getItem('gmailToken');
+  if(!token){
+    var mailto='mailto:'+encodeURIComponent(toEmail)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    window.open(mailto,'_blank');
+    logMailSent(offerId,toEmail,toName,subject,'mailto','');
+    document.getElementById('mailComposeModal').remove();
+    showToast('E-posta uygulaması açıldı','info');
+    return;
+  }
+  var user=firebase.auth().currentUser||{};
+  var from=(user.displayName||'GEOSER CRM')+' <'+(user.email||'')+'>';
+  var mime='From: '+from+'\r\nTo: '+(toName?toName+' <'+toEmail+'>':toEmail)+'\r\nSubject: '+subject+'\r\nContent-Type: text/plain; charset=UTF-8\r\nMIME-Version: 1.0\r\n\r\n'+body;
+  var b64=btoa(unescape(encodeURIComponent(mime))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  var sendBtn=document.querySelector('#mailComposeModal .btn-primary');
+  if(sendBtn){sendBtn.disabled=true;sendBtn.textContent='Gönderiliyor...';}
+  fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send',{
+    method:'POST',
+    headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+    body:JSON.stringify({raw:b64})
+  }).then(function(r){return r.json();}).then(function(data){
+    if(data.id){
+      showToast('✓ Mail gönderildi','success');
+      logMailSent(offerId,toEmail,toName,subject,'gmail',data.id);
+      document.getElementById('mailComposeModal').remove();
+    } else if(data.error&&data.error.code===401){
+      gmailAccessToken=null;localStorage.removeItem('gmailToken');
+      showToast('Gmail oturumu sona erdi. Ayarlar\'dan tekrar bağlanın.','error');
+      if(sendBtn){sendBtn.disabled=false;sendBtn.textContent='📤 Gönder';}
+    } else {
+      showToast('Hata: '+((data.error&&data.error.message)||'Bilinmeyen hata'),'error');
+      if(sendBtn){sendBtn.disabled=false;sendBtn.textContent='📤 Gönder';}
+    }
+  }).catch(function(e){
+    showToast('Bağlantı hatası','error');
+    if(sendBtn){sendBtn.disabled=false;sendBtn.textContent='📤 Gönder';}
+  });
+}
+function logMailSent(offerId,toEmail,toName,subject,method,gmailId){
+  var offer=(db.offers||[]).find(function(o){return o.id===offerId;})||{};
+  var user=firebase.auth().currentUser||{};
+  firebase.firestore().collection('mailLogs').add({
+    offerId:offerId,offerNo:offer.offerNo||offer.id||'',
+    toEmail:toEmail,toName:toName||'',subject:subject,
+    method:method||'gmail',gmailMsgId:gmailId||'',
+    sentBy:user.displayName||'',sentByUid:user.uid||'',sentByEmail:user.email||'',
+    sentAt:firebase.firestore.FieldValue.serverTimestamp(),status:'sent'
+  }).then(function(){
+    // Dashboard mail sayacını güncelle
+    var el=document.getElementById('dashMailCount');
+    if(el)el.textContent=parseInt(el.textContent||'0')+1;
+  }).catch(function(e){console.error('Mail log:',e);});
+}
+function renderMails(){
+  var el=document.getElementById('mailsContent');
+  if(!el)return;
+  if(!isAdmin()&&!isDisTicaret()){
+    el.innerHTML='<div class="access-denied" style="text-align:center;padding:60px"><div style="font-size:48px">🔒</div><h2>Erişim Kısıtlı</h2></div>';
+    return;
+  }
+  el.innerHTML='<div style="padding:20px 24px">'
+    +'<div class="page-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">'
+    +'<h2 style="margin:0">📧 Mail Geçmişi</h2>'
+    +'</div>'
+    +'<div id="mailStatsRow" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px"></div>'
+    +'<div class="card" style="border-radius:8px;overflow:hidden"><div id="mailTableWrap" style="overflow-x:auto"><p style="text-align:center;padding:30px;color:#888">Yükleniyor...</p></div></div>'
+    +'</div>';
+  var q=isAdmin()?firebase.firestore().collection('mailLogs').orderBy('sentAt','desc').limit(500):firebase.firestore().collection('mailLogs').where('sentByUid','==',firebase.auth().currentUser.uid).orderBy('sentAt','desc').limit(200);
+  q.get().then(function(snap){
+    var mails=[];snap.forEach(function(d){mails.push(Object.assign({_id:d.id},d.data()));});
+    var now=new Date();
+    var todayStr=now.toDateString();
+    var weekAgo=now.getTime()-7*86400000;
+    var today=mails.filter(function(m){return m.sentAt&&new Date(m.sentAt.seconds*1000).toDateString()===todayStr;});
+    var week=mails.filter(function(m){return m.sentAt&&new Date(m.sentAt.seconds*1000).getTime()>=weekAgo;});
+    document.getElementById('mailStatsRow').innerHTML=
+      '<div class="stat-card"><span class="ico">📧</span><div class="val">'+mails.length+'</div><div class="lbl">Toplam Mail</div></div>'
+      +'<div class="stat-card" style="background:#e8f5e9"><span class="ico">✅</span><div class="val">'+today.length+'</div><div class="lbl">Bugün</div></div>'
+      +'<div class="stat-card" style="background:#e3f2fd"><span class="ico">📅</span><div class="val">'+week.length+'</div><div class="lbl">Bu Hafta</div></div>';
+    if(mails.length===0){
+      document.getElementById('mailTableWrap').innerHTML='<p style="text-align:center;padding:40px;color:#888">📤 Henüz mail gönderilmemiş</p>';
+      return;
+    }
+    var rows=mails.map(function(m){
+      var dt=m.sentAt?new Date(m.sentAt.seconds*1000).toLocaleString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+      return '<tr>'
+        +'<td style="padding:10px 12px;white-space:nowrap">'+dt+'</td>'
+        +'<td style="padding:10px 12px">'+esc(m.sentBy||'—')+'</td>'
+        +'<td style="padding:10px 12px">'+esc(m.toEmail||'—')+(m.toName?' <span style="color:#888;font-size:12px">('+esc(m.toName)+')</span>':'')+'</td>'
+        +'<td style="padding:10px 12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(m.subject||'—')+'</td>'
+        +'<td style="padding:10px 12px"><strong>'+esc(m.offerNo||'—')+'</strong></td>'
+        +'<td style="padding:10px 12px"><span class="badge badge-success">✓ Gönderildi</span></td>'
+        +'</tr>';
+    }).join('');
+    document.getElementById('mailTableWrap').innerHTML=
+      '<table style="width:100%;border-collapse:collapse;font-size:14px">'
+      +'<thead><tr style="background:#f8f9fa;font-weight:600">'
+      +'<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e0e0e0">Tarih</th>'
+      +'<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e0e0e0">Gönderen</th>'
+      +'<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e0e0e0">Alıcı</th>'
+      +'<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e0e0e0">Konu</th>'
+      +'<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e0e0e0">Teklif No</th>'
+      +'<th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e0e0e0">Durum</th>'
+      +'</tr></thead>'
+      +'<tbody>'+rows+'</tbody></table>';
+  }).catch(function(e){
+    document.getElementById('mailTableWrap').innerHTML='<p style="color:#f44336;padding:20px">Hata: '+e.message+'</p>';
+  });
+}
+function renderGmailSettings(){
+  var isConn=!!(gmailAccessToken||localStorage.getItem('gmailToken'));
+  var savedCid=GMAIL_CLIENT_ID||localStorage.getItem('gmailClientId')||'';
+  return '<div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:20px;margin-top:20px">'
+    +'<h3 style="margin:0 0 16px;display:flex;align-items:center;gap:8px">📧 Gmail Entegrasyonu</h3>'
+    +'<p style="color:#666;font-size:14px;margin-bottom:16px">Teklifleri doğrudan Gmail hesabınızdan göndermek için bağlayın. <a href="https://console.cloud.google.com/apis/credentials" target="_blank" style="color:#1976d2">Google Cloud Console</a>\'dan OAuth 2.0 Client ID oluşturup buraya girin.</p>'
+    +'<div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px">'
+    +'<div style="flex:1;min-width:200px"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:4px">Google OAuth Client ID</label>'
+    +'<input id="gmailClientIdInput" class="form-control" placeholder="xxxx.apps.googleusercontent.com" value="'+esc(savedCid)+'" style="font-family:monospace;font-size:12px"></div>'
+    +'<button id="gmailConnectBtn" class="btn btn-primary" onclick="connectGmail()" style="white-space:nowrap">'+(isConn?'✓ Yeniden Bağla':'🔗 Gmail Bağla')+'</button>'
+    +(isConn?'<button class="btn btn-outline" onclick="disconnectGmail()">Bağlantıyı Kes</button>':'')
+    +'</div>'
+    +(isConn?'<p style="color:#4caf50;font-size:13px">✓ Gmail bağlı — teklifler doğrudan gönderilebilir</p>':'<p style="color:#ff9800;font-size:13px">⚠️ Bağlı değil — mail gönderiminde varsayılan e-posta uygulaması açılır</p>')
+    +'</div>';
+}
+</script>
 </body>
 </html>
