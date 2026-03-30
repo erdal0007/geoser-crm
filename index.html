@@ -809,6 +809,8 @@ function startListeners(){
     if(user){
       _activeUserId=user.id;
       db.activeUserId=user.id;
+      // Firebase Auth - Firestore yazma izni icin
+      firebase.auth().signInWithEmailAndPassword(emailIn.value,passIn.value).catch(function(e){if(e.code==='auth/user-not-found'||e.code==='auth/invalid-login-credentials'){firebase.auth().createUserWithEmailAndPassword(emailIn.value,passIn.value).catch(function(fe){console.log('FB Auth create:',fe.code);});}});
       overlay.style.display='none';
       loadingMsg.style.display='block';
       loadingMsg.textContent='Veriler yükleniyor...';
