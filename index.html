@@ -687,7 +687,7 @@ function renderSettings(){
     +'<input type="color" id="customColor" value="'+(s.sidebarColor||'#1a5276')+'" oninput="setSidebarColor(this.value)" style="width:32px;height:32px;border:none;cursor:pointer;border-radius:6px;padding:0">'
     +'</div></div></div></div></div></div>'
     +'<div id="sp-nav" class="settings-panel"><div class="card"><div class="card-title">Menü Öğeleri</div><div id="navItemsList"></div><div style="margin-top:16px;display:flex;gap:10px"><button class="btn btn-primary" onclick="saveNavSettings()">💾 Kaydet</button><button class="btn btn-outline" onclick="resetNavSettings()">↺ Sıfırla</button></div></div></div>'
-    +'<div id="sp-users2" class="settings-panel"><div class="card"><div class="card-title">Kullanıcı Yönetimi</div><div class="toolbar" style="margin-bottom:12px"><div class="search-box"><span>🔍</span><input id="settingsUserSearch" placeholder="Kullanıcı ara..." oninput="renderSettingsUsers()"></div><button class="btn btn-primary" onclick="openNewUser()">+ Yeni Kullanıcı</button></div><div class="table-wrap"><table><thead><tr><th>Ad Soyad</th><th>Kullanıcı Adı</th><th>E-posta</th><th>Rol</th><th>Durum</th><th>Şifre</th><th>İşlem</th></tr></thead><tbody id="settingsUserTable"></tbody></table></div></div></div>';
+    +'<div id="sp-users2" class="settings-panel"><div class="card"><div class="card-title">Kullanıcı Yönetimi</div><div class="toolbar" style="margin-bottom:12px"><div class="search-box"><span>🔍</span><input id="settingsUserSearch" placeholder="Kullanıcı ara..." oninput="renderSettingsUsers()"></div><button class="btn btn-primary" onclick="openNewUser()">+ Yeni Kullanıcı</button></div><div class="table-wrap"><table><thead><tr><th>Ad Soyad</th><th>Kullanıcı Adı</th><th>E-posta</th><th>Rol</th><th>Durum</th><th>Şifre</th><th>İşlem</th></tr></thead><tbody id="settingsUserTable"></tbody></table></div></div></div>' + renderGmailSettings();
   renderNavItems();renderSettingsUsers();
 }
 function switchSettingsTab(tab,btn){document.querySelectorAll('.settings-tabs button').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');document.querySelectorAll('.settings-panel').forEach(function(p){p.classList.remove('active');});document.getElementById('sp-'+tab).classList.add('active');if(tab==='nav')renderNavItems();if(tab==='users2')renderSettingsUsers();}
@@ -822,6 +822,7 @@ function startListeners(){
       loadingMsg.textContent='Veriler yükleniyor...';
       try{
         startListeners();
+        initGmail();
         await new Promise(function(res){setTimeout(res,1500);});
         overlay.style.display='none';
         fillSelects();
@@ -860,28 +861,44 @@ if('serviceWorker' in navigator){
 var gmailTokenClient=null,gmailAccessToken=localStorage.getItem('gmailToken')||null,GMAIL_CLIENT_ID=localStorage.getItem('gmailClientId')||'';
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function initGmail(){
-  var cfg=GMAIL_CLIENT_ID||'';
-  if(!cfg||typeof google==='undefined'||!google.accounts)return;
-  try{gmailTokenClient=google.accounts.oauth2.initTokenClient({
-    client_id:cfg,
-    scope:'https://www.googleapis.com/auth/gmail.send',
-    callback:function(r){
-      if(r.error)return showToast('Gmail hata: '+r.error,'error');
-      gmailAccessToken=r.access_token;localStorage.setItem('gmailToken',r.access_token);
-      showToast('✓ Gmail bağlantısı kuruldu','success');
-      var btn=document.getElementById('gmailConnectBtn');if(btn)btn.textContent='✓ Bağlı';
-    }});}catch(e){console.error('Gmail init:',e);}
+  var saved=localStorage.getItem('gmailToken');
+  if(saved){gmailAccessToken=saved;}
+  if(location.hash&&location.hash.indexOf('access_token=')!==-1){
+    var params=new URLSearchParams(location.hash.slice(1));
+    var token=params.get('access_token');
+    if(token&&window.opener){window.opener.postMessage({gmailToken:token},'*');window.close();return;}
+  }
+  window.addEventListener('message',function(e){
+    if(e.data&&e.data.gmailToken){
+      gmailAccessToken=e.data.gmailToken;
+      localStorage.setItem('gmailToken',e.data.gmailToken);
+      showToast('Gmail ba\u011fland\u0131!','success');
+      if(typeof renderSettings==='function')renderSettings();
+    }
+  });
+  var cid=GMAIL_CLIENT_ID||localStorage.getItem('gmailClientId')||'';
+  if(cid&&!saved&&!localStorage.getItem('gmailPrompted')){
+    localStorage.setItem('gmailPrompted','1');
+    setTimeout(function(){connectGmail();},2500);
+  }
 }
 function connectGmail(){
   var inp=document.getElementById('gmailClientIdInput');
-  var cid=inp?inp.value.trim():GMAIL_CLIENT_ID;
-  if(!cid)return showToast('Google Client ID giriniz','error');
-  GMAIL_CLIENT_ID=cid;localStorage.setItem('gmailClientId',cid);
-  if(typeof google==='undefined'||!google.accounts)return showToast('Google API yüklenmedi. Sayfayı yenileyip tekrar deneyin.','error');
-  initGmail();
-  if(gmailTokenClient)gmailTokenClient.requestAccessToken();
-  else showToast('Gmail client başlatılamadı','error');
+  var cid=(inp?inp.value.trim():'')||GMAIL_CLIENT_ID||localStorage.getItem('gmailClientId')||'';
+  if(!cid){showToast('L\u00fctfen Ayarlar > Gmail b\u00f6l\u00fcm\u00fcnden Client ID girin','error');showSection('settings');return;}
+  localStorage.setItem('gmailClientId',cid);
+  GMAIL_CLIENT_ID=cid;
+  var scope=encodeURIComponent('https://www.googleapis.com/auth/gmail.send');
+  var redirect=encodeURIComponent(location.href.split('#')[0]);
+  var oauthUrl='https://accounts.google.com/o/oauth2/v2/auth'
+    +'?client_id='+encodeURIComponent(cid)
+    +'&response_type=token'
+    +'&scope='+scope
+    +'&redirect_uri='+redirect;
+  var popup=window.open(oauthUrl,'gmailAuth','width=500,height=600,left=200,top=100');
+  if(!popup){showToast('Popup engellendi! Taray\u0131c\u0131 ayarlar\u0131ndan pop-up izni verin.','error');}
 }
+
 function disconnectGmail(){
   gmailAccessToken=null;localStorage.removeItem('gmailToken');localStorage.removeItem('gmailClientId');GMAIL_CLIENT_ID='';
   showToast('Gmail bağlantısı kesildi','info');
