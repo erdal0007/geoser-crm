@@ -858,6 +858,7 @@ if('serviceWorker' in navigator){
 <script>(function(){var a=0,l=0;var f=document.getElementById("loginForm");if(f){f.addEventListener("submit",function(e){var n=Date.now();if(l>n){e.preventDefault();e.stopImmediatePropagation();var r=Math.ceil((l-n)/1000);var err=document.getElementById("loginErr");if(err){err.textContent="Çok fazla deneme! "+r+" saniye bekleyin.";err.style.display="block";}return false;}a++;if(a>=5){l=n+30000;a=0;}},true);}})();(function(){var d=document.querySelectorAll("div");for(var i=0;i<d.length;i++){if(d[i].textContent.indexOf("GEOSER")>-1&&d[i].textContent.indexOf("\u00A9")>-1&&d[i].children.length===0){d[i].innerHTML="\u00A9 "+new Date().getFullYear()+" GEOSER GEOSENTETİK";break;}}})();
 // ======= GMAIL / MAIL FEATURES =======
 var gmailTokenClient=null,gmailAccessToken=localStorage.getItem('gmailToken')||null,GMAIL_CLIENT_ID=localStorage.getItem('gmailClientId')||'';
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function initGmail(){
   var cfg=GMAIL_CLIENT_ID||'';
   if(!cfg||typeof google==='undefined'||!google.accounts)return;
