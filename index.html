@@ -58,7 +58,7 @@
 :root{--primary:#1a5276;--primary-light:#2980b9;--secondary:#27ae60;--danger:#e74c3c;--warning:#f39c12;--bg:#f0f4f8;--card:#ffffff;--text:#2c3e50;--border:#dce3ea;--sidebar-w:240px;}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
-#sidebar{width:var(--sidebar-w);background:var(--primary);color:#fff;display:flex;flex-direction:column;position:fixed;height:100vh;z-index:100;overflow-y:auto}
+#sidebar{width:var(--sidebar-w);background:var(--primary);color:#fff;display:flex;flex-direction:column;position:fixed;height:100vh;z-index:1001;overflow-y:auto}
 #sidebar .logo{padding:16px 16px 10px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;gap:10px}
 #sidebar .logo img{max-height:48px;max-width:100px;object-fit:contain;border-radius:4px}
 #sidebar .logo-text h2{font-size:14px;font-weight:700;letter-spacing:1px}
@@ -107,7 +107,7 @@ tr:hover td{background:#f8fafc}
 .form-group input,.form-group select,.form-group textarea{padding:8px 11px;border:1px solid var(--border);border-radius:7px;font-size:13px;color:var(--text);background:#fff;width:100%;transition:border-color .2s}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--primary-light)}
 .form-group textarea{resize:vertical;min-height:72px}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.modal-overlay{position:fixed;top:0;right:0;bottom:0;left:var(--sidebar-w);background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
 .modal-overlay.hidden{display:none}
 .modal{background:#fff;border-radius:12px;width:100%;max-width:860px;max-height:92vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,.2)}
 .modal-header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:5}
